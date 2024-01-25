@@ -1,3 +1,4 @@
+log=/tmp/roboshop.log
 func_apppreq() {
   echo -e "\e[36m>>>>>>>>>>>>>>>>> Create Application User <<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
     useradd roboshop &>>${log}
@@ -19,7 +20,7 @@ func_systemd() {
   systemctl restart ${component} &>>${log}
 }
 func_nodejs() {
-  log=/tmp/roboshop.log
+
   echo -e "\e[36m>>>>>>>>>>>>>>>>> Create ${component} Service <<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
   cp ${component}.service /etc/systemd/system/${component}.service &>>${log}
   echo -e "\e[36m>>>>>>>>>>>>>>>>> Create Mongodb Repo <<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
@@ -43,7 +44,7 @@ func_nodejs() {
 }
 
 func_java() {
-  log=/tmp/roboshop.log
+
   echo -e "\e[36m>>>>>>>>>>>>>>>>> Create ${component} Service <<<<<<<<<<<<<<\e[0m"
   cp ${component}.service /etc/systemd/system/${component}.service &>>${log}
   echo -e "\e[36m>>>>>>>>>>>>>>>>> Install maven  <<<<<<<<<<<<<<\e[0m"
