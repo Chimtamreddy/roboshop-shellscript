@@ -43,19 +43,20 @@ func_nodejs() {
 }
 
 func_java() {
+  log=/tmp/roboshop.log
   echo -e "\e[36m>>>>>>>>>>>>>>>>> Create ${component} Service <<<<<<<<<<<<<<\e[0m"
-  cp ${component}.service /etc/systemd/system/${component}.service
+  cp ${component}.service /etc/systemd/system/${component}.service &>>${log}
   echo -e "\e[36m>>>>>>>>>>>>>>>>> Install maven  <<<<<<<<<<<<<<\e[0m"
-  dnf install maven -y
+  dnf install maven -y &>>${log}
   
   func_apppreq
   echo -e "\e[36m>>>>>>>>>>>>>>>>> Build ${component} Service <<<<<<<<<<<<<<\e[0m"
-  mvn clean package
-  mv target/${component}-1.0.jar ${component}.jar
+  mvn clean package &>>${log}
+  mv target/${component}-1.0.jar ${component}.jar &>>${log}
   echo -e "\e[36m>>>>>>>>>>>>>>>>> Install Mysql Client <<<<<<<<<<<<<<\e[0m"
-  dnf install mysql -y
+  dnf install mysql -y &>>${log}
   echo -e "\e[36m>>>>>>>>>>>>>>>>> Load Schema <<<<<<<<<<<<<<\e[0m"
-  mysql -h mysql.kr7348202.online -uroot -pRoboShop@1 < /app/schema/${component}.sql
+  mysql -h mysql.kr7348202.online -uroot -pRoboShop@1 < /app/schema/${component}.sql &>>${log}
   
   func_systemd
   
