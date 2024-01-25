@@ -12,7 +12,11 @@ func_apppreq() {
   cp ${component}.service /etc/systemd/system/${component}.service &>>${log}
   func_exit_status
   echo -e "\e[36m>>>>>>>>>>>>>>>>> Create Application User <<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
-  useradd roboshop &>>${log}
+  id roboshop &>>${log}
+  if [ $? -ne 0 ]; then
+    useradd roboshop &>>${log}
+  fi
+
   func_exit_status
   echo -e "\e[36m>>>>>>>>>>>>>>>>> Cleanup  Exiting Application Content <<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
   rm -rf /app &>>${log}
@@ -63,11 +67,7 @@ func_nodejs() {
 
   echo -e "\e[36m>>>>>>>>>>>>>>>>> Create Mongodb Repo <<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
   cp mongo.repo /etc/yum.repos.d/mongo.repo &>>${log}
-  if [ $? -eq 0 ]; then
-    echo -e "\e[32m SUCCESS \e[0m"
-  else
-    echo -e "\e[32m FAILURE \e[0m"
-  fi 
+  func_exit_status
   
   echo -e "\e[36m>>>>>>>>>>>>>>>>> Disable Nodejs <<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
   dnf module disable nodejs -y &>>${log}
