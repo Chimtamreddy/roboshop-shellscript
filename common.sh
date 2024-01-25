@@ -1,17 +1,19 @@
 log=/tmp/roboshop.log
 func_apppreq() {
+  echo -e "\e[36m>>>>>>>>>>>>>>>>> Create ${component} Service <<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
+  cp ${component}.service /etc/systemd/system/${component}.service &>>${log}
   echo -e "\e[36m>>>>>>>>>>>>>>>>> Create Application User <<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
-    useradd roboshop &>>${log}
-    echo -e "\e[36m>>>>>>>>>>>>>>>>> Cleanup  Exiting Application Content <<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
-    rm -rf /app &>>${log}
-    echo -e "\e[36m>>>>>>>>>>>>>>>>> Create Application Directory <<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
-    mkdir /app &>>${log}
-    echo -e "\e[36m>>>>>>>>>>>>>>>>> Download Application Content <<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
-    curl -o /tmp/${component}.zip https://roboshop-artifacts.s3.amazonaws.com/${component}.zip &>>${log}
-    echo -e "\e[36m>>>>>>>>>>>>>>>>> Extract Application Content <<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
-    cd /app
-    unzip /tmp/${component}.zip &>>${log}
-    cd /app
+  useradd roboshop &>>${log}
+  echo -e "\e[36m>>>>>>>>>>>>>>>>> Cleanup  Exiting Application Content <<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
+  rm -rf /app &>>${log}
+  echo -e "\e[36m>>>>>>>>>>>>>>>>> Create Application Directory <<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
+  mkdir /app &>>${log}
+  echo -e "\e[36m>>>>>>>>>>>>>>>>> Download Application Content <<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
+  curl -o /tmp/${component}.zip https://roboshop-artifacts.s3.amazonaws.com/${component}.zip &>>${log}
+  echo -e "\e[36m>>>>>>>>>>>>>>>>> Extract Application Content <<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
+  cd /app
+  unzip /tmp/${component}.zip &>>${log}
+  cd /app
 }
 func_systemd() {
   echo -e "\e[36m>>>>>>>>>>>>>>>>> Start ${component} Service <<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
@@ -21,8 +23,7 @@ func_systemd() {
 }
 func_nodejs() {
 
-  echo -e "\e[36m>>>>>>>>>>>>>>>>> Create ${component} Service <<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
-  cp ${component}.service /etc/systemd/system/${component}.service &>>${log}
+
   echo -e "\e[36m>>>>>>>>>>>>>>>>> Create Mongodb Repo <<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
   cp mongo.repo /etc/yum.repos.d/mongo.repo &>>${log}
   echo -e "\e[36m>>>>>>>>>>>>>>>>> Disable Nodejs <<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
@@ -45,8 +46,7 @@ func_nodejs() {
 
 func_java() {
 
-  echo -e "\e[36m>>>>>>>>>>>>>>>>> Create ${component} Service <<<<<<<<<<<<<<\e[0m"
-  cp ${component}.service /etc/systemd/system/${component}.service &>>${log}
+
   echo -e "\e[36m>>>>>>>>>>>>>>>>> Install maven  <<<<<<<<<<<<<<\e[0m"
   dnf install maven -y &>>${log}
   
@@ -61,4 +61,17 @@ func_java() {
   
   func_systemd
   
+}
+
+func_python() {
+
+  echo -e "\e[36m>>>>>>>>>>>>>>>>> Build ${component} Service <<<<<<<<<<<<<<\e[0m"
+  dnf install python36 gcc python3-devel -y &>>${log}
+
+  func_apppreq
+
+  echo -e "\e[36m>>>>>>>>>>>>>>>>> Build ${component} Service <<<<<<<<<<<<<<\e[0m"
+  pip3.6 install -r requirements.txt &>>${log}
+
+  func_systemd
 }
