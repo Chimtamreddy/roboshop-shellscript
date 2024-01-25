@@ -22,11 +22,11 @@ unzip /tmp/catalogue.zip &>>/tmp/roboshop.log
 cd /app
 echo -e "\e[36m>>>>>>>>>>>>>>>>> Download Nodejs Dependencies <<<<<<<<<<<<<<\e[0m"
 npm install &>>/tmp/roboshop.log
-echo -e "\e[36m>>>>>>>>>>>>>>>>> Install Mongodb Client <<<<<<<<<<<<<<\e[0m"
+echo -e "\e[36m>>>>>>>>>>>>>>>>> Install Mongodb Client <<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
 dnf install mongodb-org-shell -y &>>/tmp/roboshop.log
-echo -e "\e[36m>>>>>>>>>>>>>>>>> Load Catalogue Schema <<<<<<<<<<<<<<\e[0m"
+echo -e "\e[36m>>>>>>>>>>>>>>>>> Load Catalogue Schema <<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
 mongo --host mongodb.kr7348202.online </app/schema/catalogue.js &>>/tmp/roboshop.log
-echo -e "\e[36m>>>>>>>>>>>>>>>>> Start Catalogue Service <<<<<<<<<<<<<<\e[0m"
+echo -e "\e[36m>>>>>>>>>>>>>>>>> Start Catalogue Service <<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
 systemctl daemon-reload &>>/tmp/roboshop.log
 systemctl enable catalogue &>>/tmp/roboshop.log
 systemctl restart catalogue &>>/tmp/roboshop.log
