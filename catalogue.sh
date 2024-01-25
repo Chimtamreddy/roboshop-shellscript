@@ -1,32 +1,32 @@
-echo ">>>>>>>>>>>>>>>>> Create Catalogue Service <<<<<<<<<<<<<<"
+echo -e "\e[36m>>>>>>>>>>>>>>>>> Create Catalogue Service <<<<<<<<<<<<<<\e[0m"
 cp catalogue.service /etc/systemd/system/catalogue.service
-echo ">>>>>>>>>>>>>>>>> Create Mongodb Repo <<<<<<<<<<<<<<"
+echo -e "\e[36m>>>>>>>>>>>>>>>>> Create Mongodb Repo <<<<<<<<<<<<<<\e[0m"
 cp mongo.repo /etc/yum.repos.d/mongo.repo
-echo ">>>>>>>>>>>>>>>>> Disable Nodejs <<<<<<<<<<<<<<"
+echo -e "\e[36m>>>>>>>>>>>>>>>>> Disable Nodejs <<<<<<<<<<<<<<\e[0m"
 dnf module disable nodejs -y
-echo ">>>>>>>>>>>>>>>>> Enable Nodejs <<<<<<<<<<<<<<"
+echo -e "\e[36m>>>>>>>>>>>>>>>>> Enable Nodejs <<<<<<<<<<<<<<\e[0m"
 dnf module enable nodejs:18 -y
-echo ">>>>>>>>>>>>>>>>> Install Nodejs <<<<<<<<<<<<<<"
+echo -e "\e[36m>>>>>>>>>>>>>>>>> Install Nodejs <<<<<<<<<<<<<<\e[0m"
 dnf install nodejs -y
-echo ">>>>>>>>>>>>>>>>> Remove Exiting Content <<<<<<<<<<<<<<"
+echo -e "\e[36m>>>>>>>>>>>>>>>>> Remove Exiting Content <<<<<<<<<<<<<<\e[0m"
 rm -rf /app
-echo ">>>>>>>>>>>>>>>>> Create Application User <<<<<<<<<<<<<<"
+echo -e "\e[36m>>>>>>>>>>>>>>>>> Create Application User <<<<<<<<<<<<<<\e[0m"
 useradd roboshop
-echo ">>>>>>>>>>>>>>>>> Create Application Directory <<<<<<<<<<<<<<"
+echo -e "\e[36m>>>>>>>>>>>>>>>>> Create Application Directory <<<<<<<<<<<<<<\e[0m"
 mkdir /app
-echo ">>>>>>>>>>>>>>>>> Download Application Content <<<<<<<<<<<<<<"
+echo -e "\e[36m>>>>>>>>>>>>>>>>> Download Application Content <<<<<<<<<<<<<<\e[0m"
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue.zip
-echo ">>>>>>>>>>>>>>>>> Extract Application Content <<<<<<<<<<<<<<"
+echo -e "\e[36m>>>>>>>>>>>>>>>>> Extract Application Content <<<<<<<<<<<<<<\e[0m"
 cd /app
 unzip /tmp/catalogue.zip
 cd /app
-echo ">>>>>>>>>>>>>>>>> Download Nodejs Dependencies <<<<<<<<<<<<<<"
+echo -e "\e[36m>>>>>>>>>>>>>>>>> Download Nodejs Dependencies <<<<<<<<<<<<<<\e[0m"
 npm install
-echo ">>>>>>>>>>>>>>>>> Install Mongodb Client <<<<<<<<<<<<<<"
+echo -e "\e[36m>>>>>>>>>>>>>>>>> Install Mongodb Client <<<<<<<<<<<<<<\e[0m"
 dnf install mongodb-org-shell -y
-echo ">>>>>>>>>>>>>>>>> Load Catalogue Schema <<<<<<<<<<<<<<"
+echo -e "\e[36m>>>>>>>>>>>>>>>>> Load Catalogue Schema <<<<<<<<<<<<<<\e[0m"
 mongo --host mongodb.kr7348202.online </app/schema/catalogue.js
-echo ">>>>>>>>>>>>>>>>> Start Catalogue Service <<<<<<<<<<<<<<"
+echo -e "\e[36m>>>>>>>>>>>>>>>>> Start Catalogue Service <<<<<<<<<<<<<<\e[0m"
 systemctl daemon-reload
 systemctl enable catalogue
 systemctl restart catalogue
