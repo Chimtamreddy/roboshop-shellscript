@@ -19,7 +19,7 @@ func_apppreq() {
   cd /app
   unzip /tmp/${component}.zip &>>${log}
   echo $?
-  cd /app
+
 }
 func_systemd() {
   echo -e "\e[36m>>>>>>>>>>>>>>>>> Start ${component} Service <<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
