@@ -1,4 +1,4 @@
-component=user
+component=catalogue
 source common.sh
 schema_type=mongodb
 
