@@ -24,6 +24,13 @@ func_systmed() {
   systemctl restart ${component} &>>${log}
 }
 func_schema_setup() {
+  if [ "${schema_type}" == "mongodb" ]; then
+      echo -e "\e[36m>>>>>>>>>>>>>Create Mongodb Service <<<<<<<<<<<<<<<<<\e[0m"
+      dnf install mongodb-org-shell -y &>>${log}
+      echo -e "\e[36m>>>>>>>>>>>>>Schema <<<<<<<<<<<<<<<<<\e[0m"
+      mongo --host mongodb.kr7348202.online </app/schema/${component}.js &>>${log}
+
+  fi
 
   if [ "${schema_type}" == "mysql" ]; then
       echo -e "\e[36m>>>>>>>>>>>>>Create Mysql Service <<<<<<<<<<<<<<<<<\e[0m"
@@ -47,11 +54,8 @@ func_nodejs() {
   func_apppreq
   echo -e "\e[36m>>>>>>>>>>>>>Install NPM Service <<<<<<<<<<<<<<<<<\e[0m"
   npm install &>>${log}
-  echo -e "\e[36m>>>>>>>>>>>>>Create Mongodb Service <<<<<<<<<<<<<<<<<\e[0m"
-  dnf install mongodb-org-shell -y &>>${log}
-  echo -e "\e[36m>>>>>>>>>>>>>Schema <<<<<<<<<<<<<<<<<\e[0m"
-  mongo --host mongodb.kr7348202.online </app/schema/${component}.js &>>${log}
-
+  func_schema_setup
+  func_systmed
 }
 
 func_java() {
