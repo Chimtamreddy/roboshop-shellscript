@@ -2,7 +2,7 @@ log=/tmp/roboshop.log
 
 func_apppreq() {
   echo -e "\e[36m>>>>>>>>>>>>>Start ${component} Service <<<<<<<<<<<<<<<<<\e[0m"
-    cp ${component}.service /etc/systemd/system/${component}.service &>>${log}
+  cp ${component}.service /etc/systemd/system/${component}.service &>>${log}
   echo -e "\e[36m>>>>>>>>>>>>>Create Application Service <<<<<<<<<<<<<<<<<\e[0m"
   useradd roboshop &>>${log}
   echo -e "\e[36m>>>>>>>>>>>>>Remove Exiting Content <<<<<<<<<<<<<<<<<\e[0m"
