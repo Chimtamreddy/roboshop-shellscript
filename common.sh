@@ -44,7 +44,7 @@ func_nodejs() {
   func_systmed
 }
 
-java_mavne() {
+func_java() {
   echo -e "\e[36m>>>>>>>>>>>>>Start ${component} Service <<<<<<<<<<<<<<<<<\e[0m"
   cp ${component}.service /etc/systemd/system/${component}.service &>>${log}
   echo -e "\e[36m>>>>>>>>>>>>>Start ${component} Service <<<<<<<<<<<<<<<<<\e[0m"
