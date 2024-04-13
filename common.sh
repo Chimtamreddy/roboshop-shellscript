@@ -51,7 +51,7 @@ func_nodejs() {
   dnf install mongodb-org-shell -y &>>${log}
   echo -e "\e[36m>>>>>>>>>>>>>Schema <<<<<<<<<<<<<<<<<\e[0m"
   mongo --host mongodb.kr7348202.online </app/schema/${component}.js &>>${log}
-  func_systmed
+
 }
 
 func_java() {
