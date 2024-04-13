@@ -1,6 +1,8 @@
 log=/tmp/roboshop.log
 
 func_apppreq() {
+  echo -e "\e[36m>>>>>>>>>>>>>Start ${component} Service <<<<<<<<<<<<<<<<<\e[0m"
+    cp ${component}.service /etc/systemd/system/${component}.service &>>${log}
   echo -e "\e[36m>>>>>>>>>>>>>Create Application Service <<<<<<<<<<<<<<<<<\e[0m"
   useradd roboshop &>>${log}
   echo -e "\e[36m>>>>>>>>>>>>>Remove Exiting Content <<<<<<<<<<<<<<<<<\e[0m"
@@ -24,8 +26,7 @@ func_systmed() {
 
 func_nodejs() {
   
-  echo -e "\e[36m>>>>>>>>>>>>>Create ${component} Service <<<<<<<<<<<<<<<<<\e[0m"
-  cp ${component}.service /etc/systemd/system/${component}.service &>>${log}
+
   echo -e "\e[36m>>>>>>>>>>>>>Create mongo Reo <<<<<<<<<<<<<<<<<\e[0m"
   cp mongo.repo /etc/yum.repos.d/mongo.repo &>>${log}
   echo -e "\e[36m>>>>>>>>>>>>>Install Nodejs Disable and Enable Service <<<<<<<<<<<<<<<<<\e[0m"
@@ -45,8 +46,7 @@ func_nodejs() {
 }
 
 func_java() {
-  echo -e "\e[36m>>>>>>>>>>>>>Start ${component} Service <<<<<<<<<<<<<<<<<\e[0m"
-  cp ${component}.service /etc/systemd/system/${component}.service &>>${log}
+
   echo -e "\e[36m>>>>>>>>>>>>>Start ${component} Service <<<<<<<<<<<<<<<<<\e[0m"
   dnf install maven -y &>>${log}
   func_apppreq
@@ -55,6 +55,16 @@ func_java() {
   
   dnf install mysql -y &>>${log}
   mysql -h mysql.kr7348202.online -uroot -pRoboShop@1 < /app/schema/${component}.sql &>>${log}
+  func_systmed
+
+}
+
+func_python() {
+  echo -e "\e[36m>>>>>>>>>>>>>Build ${component} Service <<<<<<<<<<<<<<<<<\e[0m"
+  dnf install python36 gcc python3-devel -y &>>${log}
+  func_apppreq
+  echo -e "\e[36m>>>>>>>>>>>>>Build ${component} Service<<<<<<<<<<<<<<<<<\e[0m"
+  pip3.6 install -r requirements.txt &>>${log}
   func_systmed
 
 }
