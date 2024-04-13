@@ -19,13 +19,13 @@ cd /app
 echo -e "\e[36m>>>>>>>>>>>>>Extract Content <<<<<<<<<<<<<<<<<\e[0m"
 unzip /tmp/catalogue.zip &>>/tmp/roboshop.log
 cd /app
-echo -e "\e[36m>>>>>>>>>>>>>Install NPM Service <<<<<<<<<<<<<<<<<\e[0m"
+echo -e "\e[36m>>>>>>>>>>>>>Install NPM Service <<<<<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
 npm install &>>/tmp/roboshop.log
-echo -e "\e[36m>>>>>>>>>>>>>Create Mongodb Service <<<<<<<<<<<<<<<<<\e[0m"
+echo -e "\e[36m>>>>>>>>>>>>>Create Mongodb Service <<<<<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
 dnf install mongodb-org-shell -y &>>/tmp/roboshop.log
 echo -e "\e[36m>>>>>>>>>>>>>Schema <<<<<<<<<<<<<<<<<\e[0m"
 mongo --host mongodb.kr7348202.online </app/schema/catalogue.js &>>/tmp/roboshop.log
-echo -e "\e[36m>>>>>>>>>>>>>Start Catalogue Service <<<<<<<<<<<<<<<<<\e[0m"
+echo -e "\e[36m>>>>>>>>>>>>>Start Catalogue Service <<<<<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
 systemctl daemon-reload &>>/tmp/roboshop.log
 systemctl enable catalogue &>>/tmp/roboshop.log
 systemctl restart catalogue &>>/tmp/roboshop.log
