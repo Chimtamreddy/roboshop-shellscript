@@ -4,6 +4,7 @@ dnf module disable nodejs -y
 dnf module enable nodejs:18 -y
 dnf install nodejs -y
 useradd roboshop
+rm -rf /app
 mkdir /app
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue.zip
 cd /app
